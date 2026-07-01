@@ -6,11 +6,9 @@ single LangGraph StateGraph.  Run it once for any sample_id and it executes
 every stage automatically.
 
 Stage 1 – Static Analysis (scripts/)
-    download_apks        →  Download malware APKs from AndroZoo
-    extract_features     →  Decompile APKs; extract permissions, API calls, strings
-    filter_features      →  Clean and filter to security-relevant signals
-    generate_prompts     →  Produce LLM instruction-tuning prompts (prompts.csv)
-    build_static_chunks  →  Convert filtered_dataset.csv → chunks.jsonl + SQLite
+    extract_features     →  Decompile APKs (placed manually); extract permissions,
+                            API calls, and strings → detailed_dataset.csv
+    build_static_chunks  →  Convert detailed_dataset.csv → chunks.jsonl + SQLite
                             (bridges static pipeline into RAG pipeline format)
 
 Stage 2 – RAG Forensics Pipeline
@@ -25,6 +23,10 @@ Stage 2 – RAG Forensics Pipeline
 Usage:
     python pipeline_graph.py              # sample_id defaults to 1
     python pipeline_graph.py 2            # run for sample 2
+
+Note:
+    Place your APK files manually in the data/apks/ directory before running.
+    The pipeline picks them up from there automatically.
 """
 
 import os
@@ -63,16 +65,6 @@ SCRIPTS_DIR = os.path.join(os.path.dirname(__file__), "scripts")
 # STAGE 1 — Static Analysis Nodes
 # ════════════════════════════════════════════════════════════════════════════
 
-def download_apks_node(state: PipelineState) -> PipelineState:
-    _banner("Node: Download APKs", state["sample_id"])
-    try:
-        _run([sys.executable, "download_malware.py"], cwd=SCRIPTS_DIR)
-        return {**state, "status": "APKS_DOWNLOADED", "message": "APKs downloaded from AndroZoo."}
-    except Exception as e:
-        logger.error(f"download_apks failed: {e}")
-        return {**state, "status": "FAILED", "message": f"download_apks failed: {e}"}
-
-
 def extract_features_node(state: PipelineState) -> PipelineState:
     if state["status"] == "FAILED":
         return state
@@ -84,32 +76,6 @@ def extract_features_node(state: PipelineState) -> PipelineState:
     except Exception as e:
         logger.error(f"extract_features failed: {e}")
         return {**state, "status": "FAILED", "message": f"extract_features failed: {e}"}
-
-
-def filter_features_node(state: PipelineState) -> PipelineState:
-    if state["status"] == "FAILED":
-        return state
-    _banner("Node: Filter Features", state["sample_id"])
-    try:
-        _run([sys.executable, "feature_filter.py"], cwd=SCRIPTS_DIR)
-        return {**state, "status": "FEATURES_FILTERED",
-                "message": "Features filtered to security-relevant signals."}
-    except Exception as e:
-        logger.error(f"filter_features failed: {e}")
-        return {**state, "status": "FAILED", "message": f"filter_features failed: {e}"}
-
-
-def generate_prompts_node(state: PipelineState) -> PipelineState:
-    if state["status"] == "FAILED":
-        return state
-    _banner("Node: Generate Prompts", state["sample_id"])
-    try:
-        _run([sys.executable, "prompt_generator.py"], cwd=SCRIPTS_DIR)
-        return {**state, "status": "PROMPTS_GENERATED",
-                "message": "LLM instruction-tuning prompts written to prompts.csv."}
-    except Exception as e:
-        logger.error(f"generate_prompts failed: {e}")
-        return {**state, "status": "FAILED", "message": f"generate_prompts failed: {e}"}
 
 
 def build_static_chunks_node(state: PipelineState) -> PipelineState:
@@ -235,10 +201,7 @@ def verify_claims_node(state: PipelineState) -> PipelineState:
 builder = StateGraph(PipelineState)
 
 # Stage 1 — Static Analysis
-builder.add_node("download_apks",        download_apks_node)
 builder.add_node("extract_features",     extract_features_node)
-builder.add_node("filter_features",      filter_features_node)
-builder.add_node("generate_prompts",     generate_prompts_node)
 builder.add_node("build_static_chunks",  build_static_chunks_node)
 
 # Stage 2 — RAG Forensics
@@ -251,11 +214,8 @@ builder.add_node("llm_analyzer",         llm_analyzer_node)
 builder.add_node("verify_claims",        verify_claims_node)
 
 # Edges — Stage 1 (linear)
-builder.add_edge(START,                  "download_apks")
-builder.add_edge("download_apks",        "extract_features")
-builder.add_edge("extract_features",     "filter_features")
-builder.add_edge("filter_features",      "generate_prompts")
-builder.add_edge("generate_prompts",     "build_static_chunks")
+builder.add_edge(START,                  "extract_features")
+builder.add_edge("extract_features",     "build_static_chunks")
 
 # Bridge — Stage 1 → Stage 2
 builder.add_edge("build_static_chunks",  "ssaf_filter")

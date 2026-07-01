@@ -33,7 +33,9 @@ CHUNKS_PATH = LOG_DIR / "chunks.jsonl"
 
 BASE_PATH = os.environ.get("MALWARE_PROJECT_BASE", str(path_in_project("data")))
 FEATURES_PATH = os.environ.get("FEATURES_PATH", os.path.join(BASE_PATH, "features"))
-FILTERED_CSV = os.path.join(FEATURES_PATH, "filtered_dataset.csv")
+# Reads the raw detailed dataset produced by extract_features_detailed.py
+# (filter_features step is no longer in the pipeline — ssaf_filter handles it downstream)
+FEATURES_CSV = os.path.join(FEATURES_PATH, "detailed_dataset.csv")
 
 
 def split_pipe(value):
@@ -61,12 +63,12 @@ def build_jimple_stub(class_name, method_name, apk_name, label, permissions, str
 def build_chunks_from_static():
     os.makedirs(LOG_DIR, exist_ok=True)
 
-    if not os.path.exists(FILTERED_CSV):
-        logger.error(f"filtered_dataset.csv not found at {FILTERED_CSV}")
-        logger.error("Run the static analysis scripts first: extract_features_detailed.py → feature_filter.py")
+    if not os.path.exists(FEATURES_CSV):
+        logger.error(f"detailed_dataset.csv not found at {FEATURES_CSV}")
+        logger.error("Run extract_features_detailed.py first and place APKs in data/apks/")
         sys.exit(1)
 
-    df = pd.read_csv(FILTERED_CSV)
+    df = pd.read_csv(FEATURES_CSV)
     logger.info(f"Loaded {len(df)} APK rows from filtered_dataset.csv")
 
     # ── SQLite setup ───────────────────────────────────────────────────────
