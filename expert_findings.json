@@ -1,0 +1,546 @@
+{
+  "expert_findings": [
+    {
+      "category": "dynamic_class_loading",
+      "query": "Dynamic class loading via DexClassLoader or PathClassLoader for payload staging",
+      "matches": [
+        {
+          "class_name": "com.malicious.Dropper",
+          "method_name": "z1",
+          "score": 0.4464789546323885,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents the behavior of a payload stager, which is a type of malware. The malicious intent is to load and execute a malicious payload f..."
+        },
+        {
+          "class_name": "com.malicious.Dropper",
+          "method_name": "z1",
+          "score": 0.4464789546323885,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents the behavior of a payload stager, which is a type of malware. The malicious intent is to load and execute a malicious payload f..."
+        },
+        {
+          "class_name": "com.malicious.Core",
+          "method_name": "z1",
+          "score": 0.42001977889399267,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method attempts to load an encrypted class using the DexClassLoader. It reads 14 bytes of data from a file named 'payload.key' located in the '/d..."
+        },
+        {
+          "class_name": "com.malicious.Decryptor",
+          "method_name": "decrypt",
+          "score": 0.3130131824530824,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Payload staging\nMALICIOUS INTENT: This code is suspicious because it attempts to decrypt a payload using AES encryption, likely..."
+        },
+        {
+          "class_name": "com.malicious.Decryptor",
+          "method_name": "decrypt",
+          "score": 0.3130131824530824,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Payload staging\nMALICIOUS INTENT: This code is suspicious because it attempts to decrypt a payload using AES encryption, likely..."
+        }
+      ]
+    },
+    {
+      "category": "native_jni",
+      "query": "Native JNI code execution through System.loadLibrary or dlopen for code injection",
+      "matches": [
+        {
+          "class_name": "com.malicious.Core",
+          "method_name": "z1",
+          "score": 0.3795241974330208,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method attempts to load an encrypted class using the DexClassLoader. It reads 14 bytes of data from a file named 'payload.key' located in the '/d..."
+        },
+        {
+          "class_name": "com.malicious.Dropper",
+          "method_name": "z1",
+          "score": 0.35402587786345296,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents the behavior of a payload stager, which is a type of malware. The malicious intent is to load and execute a malicious payload f..."
+        },
+        {
+          "class_name": "com.malicious.Dropper",
+          "method_name": "z1",
+          "score": 0.35402587786345296,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents the behavior of a payload stager, which is a type of malware. The malicious intent is to load and execute a malicious payload f..."
+        },
+        {
+          "class_name": "com.malicious.Decryptor",
+          "method_name": "decrypt",
+          "score": 0.34764699547456973,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Payload staging\nMALICIOUS INTENT: This code is suspicious because it attempts to decrypt a payload using AES encryption, likely..."
+        },
+        {
+          "class_name": "com.malicious.Decryptor",
+          "method_name": "decrypt",
+          "score": 0.34764699547456973,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Payload staging\nMALICIOUS INTENT: This code is suspicious because it attempts to decrypt a payload using AES encryption, likely..."
+        }
+      ]
+    },
+    {
+      "category": "cryptographic_ops",
+      "query": "AES or DES cryptographic operations used to decrypt hidden payloads",
+      "matches": [
+        {
+          "class_name": "com.malicious.Decryptor",
+          "method_name": "decrypt",
+          "score": 0.44087279192116524,
+          "ssaf_flagged": true,
+          "summary_snippet": "The decrypt method initializes an AES cipher instance with a CBC/PKCS5Padding configuration, but it does not actually perform any decryption. This sug..."
+        },
+        {
+          "class_name": "com.malicious.Decryptor",
+          "method_name": "decrypt",
+          "score": 0.3928179676493855,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Payload staging\nMALICIOUS INTENT: This code is suspicious because it attempts to decrypt a payload using AES encryption, likely..."
+        },
+        {
+          "class_name": "com.malicious.Decryptor",
+          "method_name": "decrypt",
+          "score": 0.3928179676493855,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Payload staging\nMALICIOUS INTENT: This code is suspicious because it attempts to decrypt a payload using AES encryption, likely..."
+        },
+        {
+          "class_name": "com.malicious.Dropper",
+          "method_name": "z1",
+          "score": 0.3371132609776366,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents the behavior of a payload stager, which is a type of malware. The malicious intent is to load and execute a malicious payload f..."
+        },
+        {
+          "class_name": "com.malicious.Dropper",
+          "method_name": "z1",
+          "score": 0.3371132609776366,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents the behavior of a payload stager, which is a type of malware. The malicious intent is to load and execute a malicious payload f..."
+        }
+      ]
+    },
+    {
+      "category": "socket_c2",
+      "query": "Socket connection to external C2 server for command and control communication",
+      "matches": [
+        {
+          "class_name": "com.malicious.BootReceiver",
+          "method_name": "onReceive",
+          "score": 0.4226811847105472,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents a threat classification of C2 communication, as it appears to be a mechanism to communicate with a malicious server on boot com..."
+        },
+        {
+          "class_name": "com.malicious.BootReceiver",
+          "method_name": "onReceive",
+          "score": 0.4226811847105472,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents a threat classification of C2 communication, as it appears to be a mechanism to communicate with a malicious server on boot com..."
+        },
+        {
+          "class_name": "com.benign.MainActivity",
+          "method_name": "onCreate",
+          "score": 0.2804221927082946,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Data exfiltration and Command and Control (C2) communication.\nMALICIOUS INTENT: This onCreate method is suspicious because it l..."
+        },
+        {
+          "class_name": "com.benign.MainActivity",
+          "method_name": "onCreate",
+          "score": 0.2804221927082946,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Data exfiltration and Command and Control (C2) communication.\nMALICIOUS INTENT: This onCreate method is suspicious because it l..."
+        },
+        {
+          "class_name": "com.malicious.C2Client",
+          "method_name": "sendExfiltratedData",
+          "score": 0.2488996599728221,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents data exfiltration behavior, indicating a possible spyware or information stealer malware. \nThe malicious intent behind this cod..."
+        }
+      ]
+    },
+    {
+      "category": "sms_fraud",
+      "query": "SMS sending via SmsManager for premium rate fraud or data exfiltration",
+      "matches": [
+        {
+          "class_name": "com.malicious.SmsSender",
+          "method_name": "send",
+          "score": 0.6007644460853219,
+          "ssaf_flagged": true,
+          "summary_snippet": "This code behavior is indicative of data exfiltration, as it attempts to send a malicious SMS message containing sensitive information (\"IMSI exfiltra..."
+        },
+        {
+          "class_name": "com.malicious.SmsSender",
+          "method_name": "send",
+          "score": 0.6007644460853219,
+          "ssaf_flagged": true,
+          "summary_snippet": "This code behavior is indicative of data exfiltration, as it attempts to send a malicious SMS message containing sensitive information (\"IMSI exfiltra..."
+        },
+        {
+          "class_name": "com.malicious.C2Client",
+          "method_name": "sendExfiltratedData",
+          "score": 0.575235017250037,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents data exfiltration behavior, indicating a possible spyware or information stealer malware. \nThe malicious intent behind this cod..."
+        },
+        {
+          "class_name": "com.malicious.C2Client",
+          "method_name": "sendExfiltratedData",
+          "score": 0.575235017250037,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents data exfiltration behavior, indicating a possible spyware or information stealer malware. \nThe malicious intent behind this cod..."
+        },
+        {
+          "class_name": "com.benign.MainActivity",
+          "method_name": "onCreate",
+          "score": 0.344068337666551,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Data exfiltration and Command and Control (C2) communication.\nMALICIOUS INTENT: This onCreate method is suspicious because it l..."
+        }
+      ]
+    },
+    {
+      "category": "file_write_persistence",
+      "query": "File write operations to system directories for rootkit persistence",
+      "matches": [
+        {
+          "class_name": "com.malicious.Persistence",
+          "method_name": "installService",
+          "score": 0.31842292802249994,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents a variant of a dropper, specifically a bootkit, which attempts to install a malicious service on the system. The malicious inte..."
+        },
+        {
+          "class_name": "com.malicious.Persistence",
+          "method_name": "installService",
+          "score": 0.31842292802249994,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents a variant of a dropper, specifically a bootkit, which attempts to install a malicious service on the system. The malicious inte..."
+        },
+        {
+          "class_name": "com.benign.MainActivity",
+          "method_name": "onCreate",
+          "score": 0.28604776738172855,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Data exfiltration and Command and Control (C2) communication.\nMALICIOUS INTENT: This onCreate method is suspicious because it l..."
+        },
+        {
+          "class_name": "com.benign.MainActivity",
+          "method_name": "onCreate",
+          "score": 0.28604776738172855,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Data exfiltration and Command and Control (C2) communication.\nMALICIOUS INTENT: This onCreate method is suspicious because it l..."
+        },
+        {
+          "class_name": "com.malicious.PayloadStager",
+          "method_name": "runPayload",
+          "score": 0.2688376632388263,
+          "ssaf_flagged": true,
+          "summary_snippet": "The runPayload method represents a type of malware behavior known as Payload Staging, which is a technique often employed by droppers to prepare the e..."
+        }
+      ]
+    },
+    {
+      "category": "privilege_escalation",
+      "query": "Runtime.exec or ProcessBuilder usage for privilege escalation via su",
+      "matches": [
+        {
+          "class_name": "com.malicious.PayloadStager",
+          "method_name": "runPayload",
+          "score": 0.5195486631124464,
+          "ssaf_flagged": true,
+          "summary_snippet": "The runPayload method represents a type of malware behavior known as Payload Staging, which is a technique often employed by droppers to prepare the e..."
+        },
+        {
+          "class_name": "com.malicious.PayloadStager",
+          "method_name": "runPayload",
+          "score": 0.5195486631124464,
+          "ssaf_flagged": true,
+          "summary_snippet": "The runPayload method represents a type of malware behavior known as Payload Staging, which is a technique often employed by droppers to prepare the e..."
+        },
+        {
+          "class_name": "com.malicious.Dropper",
+          "method_name": "z1",
+          "score": 0.30443814242333556,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents the behavior of a payload stager, which is a type of malware. The malicious intent is to load and execute a malicious payload f..."
+        },
+        {
+          "class_name": "com.malicious.Dropper",
+          "method_name": "z1",
+          "score": 0.30443814242333556,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents the behavior of a payload stager, which is a type of malware. The malicious intent is to load and execute a malicious payload f..."
+        },
+        {
+          "class_name": "com.benign.MainActivity",
+          "method_name": "onCreate",
+          "score": 0.2712862497850817,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Data exfiltration and Command and Control (C2) communication.\nMALICIOUS INTENT: This onCreate method is suspicious because it l..."
+        }
+      ]
+    },
+    {
+      "category": "boot_receiver",
+      "query": "Boot receiver registration for malware persistence across device restarts",
+      "matches": [
+        {
+          "class_name": "com.malicious.Persistence",
+          "method_name": "installService",
+          "score": 0.6375978469095291,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents a variant of a dropper, specifically a bootkit, which attempts to install a malicious service on the system. The malicious inte..."
+        },
+        {
+          "class_name": "com.malicious.Persistence",
+          "method_name": "installService",
+          "score": 0.6375978469095291,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents a variant of a dropper, specifically a bootkit, which attempts to install a malicious service on the system. The malicious inte..."
+        },
+        {
+          "class_name": "com.malicious.BootReceiver",
+          "method_name": "onReceive",
+          "score": 0.3671669558220493,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents a threat classification of C2 communication, as it appears to be a mechanism to communicate with a malicious server on boot com..."
+        },
+        {
+          "class_name": "com.malicious.BootReceiver",
+          "method_name": "onReceive",
+          "score": 0.3671669558220493,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents a threat classification of C2 communication, as it appears to be a mechanism to communicate with a malicious server on boot com..."
+        },
+        {
+          "class_name": "com.malicious.Dropper",
+          "method_name": "z1",
+          "score": 0.3512832225943122,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents the behavior of a payload stager, which is a type of malware. The malicious intent is to load and execute a malicious payload f..."
+        }
+      ]
+    },
+    {
+      "category": "reflection_bypass",
+      "query": "Reflection-based method invocation to bypass security restrictions",
+      "matches": [
+        {
+          "class_name": "com.malicious.Dropper",
+          "method_name": "z1",
+          "score": 0.38134494021249915,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents the behavior of a payload stager, which is a type of malware. The malicious intent is to load and execute a malicious payload f..."
+        },
+        {
+          "class_name": "com.malicious.Dropper",
+          "method_name": "z1",
+          "score": 0.38134494021249915,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents the behavior of a payload stager, which is a type of malware. The malicious intent is to load and execute a malicious payload f..."
+        },
+        {
+          "class_name": "com.malicious.PayloadStager",
+          "method_name": "runPayload",
+          "score": 0.37164753048455335,
+          "ssaf_flagged": true,
+          "summary_snippet": "The runPayload method represents a type of malware behavior known as Payload Staging, which is a technique often employed by droppers to prepare the e..."
+        },
+        {
+          "class_name": "com.malicious.PayloadStager",
+          "method_name": "runPayload",
+          "score": 0.37164753048455335,
+          "ssaf_flagged": true,
+          "summary_snippet": "The runPayload method represents a type of malware behavior known as Payload Staging, which is a technique often employed by droppers to prepare the e..."
+        },
+        {
+          "class_name": "com.benign.MainActivity",
+          "method_name": "onCreate",
+          "score": 0.36099190730202513,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Data exfiltration and Command and Control (C2) communication.\nMALICIOUS INTENT: This onCreate method is suspicious because it l..."
+        }
+      ]
+    },
+    {
+      "category": "content_provider",
+      "query": "Content provider access for stealing contacts, SMS, or call logs",
+      "matches": [
+        {
+          "class_name": "com.malicious.C2Client",
+          "method_name": "sendExfiltratedData",
+          "score": 0.5108828579154853,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents data exfiltration behavior, indicating a possible spyware or information stealer malware. \nThe malicious intent behind this cod..."
+        },
+        {
+          "class_name": "com.malicious.C2Client",
+          "method_name": "sendExfiltratedData",
+          "score": 0.5108828579154853,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents data exfiltration behavior, indicating a possible spyware or information stealer malware. \nThe malicious intent behind this cod..."
+        },
+        {
+          "class_name": "com.malicious.SmsSender",
+          "method_name": "send",
+          "score": 0.4991378028694377,
+          "ssaf_flagged": true,
+          "summary_snippet": "This code behavior is indicative of data exfiltration, as it attempts to send a malicious SMS message containing sensitive information (\"IMSI exfiltra..."
+        },
+        {
+          "class_name": "com.malicious.SmsSender",
+          "method_name": "send",
+          "score": 0.4991378028694377,
+          "ssaf_flagged": true,
+          "summary_snippet": "This code behavior is indicative of data exfiltration, as it attempts to send a malicious SMS message containing sensitive information (\"IMSI exfiltra..."
+        },
+        {
+          "class_name": "com.benign.MainActivity",
+          "method_name": "onCreate",
+          "score": 0.4043450359766969,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Data exfiltration and Command and Control (C2) communication.\nMALICIOUS INTENT: This onCreate method is suspicious because it l..."
+        }
+      ]
+    },
+    {
+      "category": "http_post_exfil",
+      "query": "HTTP POST request containing device identifiers like IMEI or IMSI",
+      "matches": [
+        {
+          "class_name": "com.malicious.C2Client",
+          "method_name": "sendExfiltratedData",
+          "score": 0.45163324030153096,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents data exfiltration behavior, indicating a possible spyware or information stealer malware. \nThe malicious intent behind this cod..."
+        },
+        {
+          "class_name": "com.malicious.C2Client",
+          "method_name": "sendExfiltratedData",
+          "score": 0.45163324030153096,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents data exfiltration behavior, indicating a possible spyware or information stealer malware. \nThe malicious intent behind this cod..."
+        },
+        {
+          "class_name": "com.malicious.SmsSender",
+          "method_name": "send",
+          "score": 0.3741209970709281,
+          "ssaf_flagged": true,
+          "summary_snippet": "This code behavior is indicative of data exfiltration, as it attempts to send a malicious SMS message containing sensitive information (\"IMSI exfiltra..."
+        },
+        {
+          "class_name": "com.malicious.SmsSender",
+          "method_name": "send",
+          "score": 0.3741209970709281,
+          "ssaf_flagged": true,
+          "summary_snippet": "This code behavior is indicative of data exfiltration, as it attempts to send a malicious SMS message containing sensitive information (\"IMSI exfiltra..."
+        },
+        {
+          "class_name": "com.malicious.BootReceiver",
+          "method_name": "onReceive",
+          "score": 0.2091872474106547,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents a threat classification of C2 communication, as it appears to be a mechanism to communicate with a malicious server on boot com..."
+        }
+      ]
+    }
+  ],
+  "adaptive_followup": [
+    {
+      "query": "Find all execution trace chunks where a file write operation is immediately followed by a socket connection, and the SSAF is True.",
+      "matches": [
+        {
+          "class_name": "com.benign.MainActivity",
+          "method_name": "onCreate",
+          "score": 0.31406416088308864,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Data exfiltration and Command and Control (C2) communication.\nMALICIOUS INTENT: This onCreate method is suspicious because it l..."
+        },
+        {
+          "class_name": "com.benign.MainActivity",
+          "method_name": "onCreate",
+          "score": 0.31406416088308864,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Data exfiltration and Command and Control (C2) communication.\nMALICIOUS INTENT: This onCreate method is suspicious because it l..."
+        },
+        {
+          "class_name": "com.malicious.Decryptor",
+          "method_name": "decrypt",
+          "score": 0.29403015505587204,
+          "ssaf_flagged": true,
+          "summary_snippet": "THREAT CLASSIFICATION: Payload staging\nMALICIOUS INTENT: This code is suspicious because it attempts to decrypt a payload using AES encryption, likely..."
+        }
+      ]
+    },
+    {
+      "query": "Identify any instances where anti-analysis checks are performed in conjunction with privilege escalation, and the SSAF is True.",
+      "matches": [
+        {
+          "class_name": "com.malicious.PayloadStager",
+          "method_name": "runPayload",
+          "score": 0.3046279478697753,
+          "ssaf_flagged": true,
+          "summary_snippet": "The runPayload method represents a type of malware behavior known as Payload Staging, which is a technique often employed by droppers to prepare the e..."
+        },
+        {
+          "class_name": "com.malicious.PayloadStager",
+          "method_name": "runPayload",
+          "score": 0.3046279478697753,
+          "ssaf_flagged": true,
+          "summary_snippet": "The runPayload method represents a type of malware behavior known as Payload Staging, which is a technique often employed by droppers to prepare the e..."
+        },
+        {
+          "class_name": "com.malicious.Dropper",
+          "method_name": "z1",
+          "score": 0.2655776809340381,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents the behavior of a payload stager, which is a type of malware. The malicious intent is to load and execute a malicious payload f..."
+        }
+      ]
+    },
+    {
+      "query": "Determine if there are any unusual inter-thread sequences involving the com.malicious.Dropper.z1 class, and the SSAF is True.",
+      "matches": [
+        {
+          "class_name": "com.malicious.Core",
+          "method_name": "z1",
+          "score": 0.3795883444284819,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method attempts to load an encrypted class using the DexClassLoader. It reads 14 bytes of data from a file named 'payload.key' located in the '/d..."
+        },
+        {
+          "class_name": "com.malicious.Dropper",
+          "method_name": "z1",
+          "score": 0.35239654576879903,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents the behavior of a payload stager, which is a type of malware. The malicious intent is to load and execute a malicious payload f..."
+        },
+        {
+          "class_name": "com.malicious.Dropper",
+          "method_name": "z1",
+          "score": 0.35239654576879903,
+          "ssaf_flagged": true,
+          "summary_snippet": "This method represents the behavior of a payload stager, which is a type of malware. The malicious intent is to load and execute a malicious payload f..."
+        }
+      ]
+    }
+  ],
+  "all_suspect_methods": [
+    "com.malicious.PayloadStager.runPayload",
+    "com.malicious.C2Client.sendExfiltratedData",
+    "com.malicious.SmsSender.send",
+    "com.malicious.Decryptor.decrypt",
+    "com.malicious.Core.z1",
+    "com.malicious.Persistence.installService",
+    "com.benign.MainActivity.onCreate",
+    "com.malicious.BootReceiver.onReceive",
+    "com.malicious.Dropper.z1"
+  ]
+}

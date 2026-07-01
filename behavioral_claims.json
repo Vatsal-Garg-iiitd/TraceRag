@@ -1,0 +1,532 @@
+[
+  {
+    "CLAIM_ID": "CLAIM_001",
+    "BEHAVIOR": "The malware attempts to decrypt AES-encrypted payload data using the AES/CBC/PKCS5Padding cipher.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.Decryptor.decrypt",
+      "com.malicious.Dropper.z1"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "read",
+        "args_contains": "encrypted_data"
+      },
+      {
+        "syscall": "execve",
+        "args_contains": "su"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1059.001 - Command and Scripting Interpreter",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779426076571943120,
+      "end_ns": 1779429161081665024
+    },
+    "THREAD_ID": 1042
+  },
+  {
+    "CLAIM_ID": "CLAIM_002",
+    "BEHAVIOR": "The malware attempts to install a malicious service that will be executed on boot.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.Persistence.installService"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "openat",
+        "args_contains": "/data/system/users/0/admin_receivers.xml"
+      },
+      {
+        "syscall": "write",
+        "args_contains": "com.malicious.BootReceiver"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1059.001 - Command and Scripting Interpreter",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429163081665024,
+      "end_ns": 1779429166081665024
+    },
+    "THREAD_ID": 1043
+  },
+  {
+    "CLAIM_ID": "CLAIM_003",
+    "BEHAVIOR": "The malware attempts to execute a malicious payload on boot.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.PayloadStager.runPayload"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "execve",
+        "args_contains": "su"
+      },
+      {
+        "syscall": "mprotect",
+        "args_contains": "PROT_READ|PROT_EXEC"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1059.001 - Command and Scripting Interpreter",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429159581665024,
+      "end_ns": 1779429161081665024
+    },
+    "THREAD_ID": 1042
+  },
+  {
+    "CLAIM_ID": "CLAIM_004",
+    "BEHAVIOR": "The malware attempts to write a malicious script to /etc/init.d/malware.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.BootReceiver.onReceive"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "openat",
+        "args_contains": "/etc/init.d/malware"
+      },
+      {
+        "syscall": "write",
+        "args_contains": "/data/local/tmp/backdoor"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1059.001 - Command and Scripting Interpreter",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429164081665024,
+      "end_ns": 1779429166081665024
+    },
+    "THREAD_ID": 1043
+  },
+  {
+    "CLAIM_ID": "CLAIM_005",
+    "BEHAVIOR": "The malware attempts to install a backdoor service on the device, which will be executed at boot time.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.Persistence.installService",
+      "com.malicious.BootReceiver.onReceive"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "openat",
+        "args_contains": "/data/system/users/0/admin_receivers.xml"
+      },
+      {
+        "syscall": "write",
+        "args_contains": "<admin-receiver>com.malicious.BootReceiver</admin-receiver>"
+      },
+      {
+        "syscall": "openat",
+        "args_contains": "/etc/init.d/malware"
+      },
+      {
+        "syscall": "write",
+        "args_contains": "#!/system/bin/sh\\n/data/local/tmp/backdoor &\\n"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1059.001 - Command and Scripting Interpreter",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429163081665024,
+      "end_ns": 1779429166081665024
+    },
+    "THREAD_ID": 1043
+  },
+  {
+    "CLAIM_ID": "CLAIM_006",
+    "BEHAVIOR": "The malware sends an SMS message containing the IMSI number to a malicious server.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.SmsSender.send",
+      "com.malicious.C2Client.sendExfiltratedData"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "openat",
+        "args_contains": "/dev/sms"
+      },
+      {
+        "syscall": "write",
+        "args_contains": "5556:IMSI exfiltrated!"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1048 - Exfiltration Over Alternative Protocol",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429171581665024,
+      "end_ns": 1779429175081665024
+    },
+    "THREAD_ID": 1044
+  },
+  {
+    "CLAIM_ID": "CLAIM_007",
+    "BEHAVIOR": "The malware sends an SMS message containing the IMSI number to a malicious server.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.SmsSender.send",
+      "com.malicious.C2Client.sendExfiltratedData"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "openat",
+        "args_contains": "/dev/sms"
+      },
+      {
+        "syscall": "write",
+        "args_contains": "IMSI exfiltrated!"
+      },
+      {
+        "syscall": "connect",
+        "args_contains": "192.168.1.200"
+      },
+      {
+        "syscall": "sendto",
+        "args_contains": "imsi=310260000000000"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1059.001 - Command and Scripting Interpreter",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429170081665024,
+      "end_ns": 1779429175081665024
+    },
+    "THREAD_ID": 1044
+  },
+  {
+    "CLAIM_ID": "CLAIM_008",
+    "BEHAVIOR": "The malware writes a malicious script to the /etc/init.d/malware file, which will be executed on boot.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.BootReceiver.onReceive"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "openat",
+        "args_contains": "/etc/init.d/malware"
+      },
+      {
+        "syscall": "write",
+        "args_contains": "#!/system/bin/sh"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1059.001 - Command and Scripting Interpreter",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429164081665024,
+      "end_ns": 1779429166081665024
+    },
+    "THREAD_ID": 1043
+  },
+  {
+    "CLAIM_ID": "CLAIM_009",
+    "BEHAVIOR": "The malware attempts to install a malicious service and modify system files to enable persistence.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.Persistence.installService",
+      "com.malicious.Dropper.z1"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "openat",
+        "args_contains": "/data/system/users/0/admin_receivers.xml"
+      },
+      {
+        "syscall": "write",
+        "args_contains": "<admin-receiver>com.malicious.BootReceiver</admin-receiver>"
+      },
+      {
+        "syscall": "openat",
+        "args_contains": "/etc/init.d/malware"
+      },
+      {
+        "syscall": "write",
+        "args_contains": "#!/system/bin/sh\n/data/local/tmp/backdoor &\n"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1543.003 - Create or Modify System Files",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429163081665024,
+      "end_ns": 1779429167081665024
+    },
+    "THREAD_ID": 1043
+  },
+  {
+    "CLAIM_ID": "CLAIM_010",
+    "BEHAVIOR": "The malware attempts to decrypt and execute a payload from a malicious APK.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.Dropper.z1",
+      "com.malicious.PayloadStager.runPayload"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "openat",
+        "args_contains": "/data/user/0/com.malicious/files/payload.key"
+      },
+      {
+        "syscall": "execve",
+        "args_contains": "/system/bin/su"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1059.001 - Command and Scripting Interpreter",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429157081665024,
+      "end_ns": 1779429161081665024
+    },
+    "THREAD_ID": 1042
+  },
+  {
+    "CLAIM_ID": "CLAIM_011",
+    "BEHAVIOR": "The malware attempts to decrypt a payload using AES/CBC/PKCS5Padding.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.Decryptor.decrypt"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "read",
+        "args_contains": "encrypted_data"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1486 - Data Encrypted for Impact",
+    "CONFIDENCE": "MEDIUM",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779426076571943120,
+      "end_ns": 1779426076571944120
+    },
+    "THREAD_ID": 1042
+  },
+  {
+    "CLAIM_ID": "CLAIM_012",
+    "BEHAVIOR": "The malicious app attempts to load a class from a DexClassLoader with a hardcoded key 'payload.key', indicating potential code injection or payload execution.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.Core.z1"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "openat",
+        "args_contains": "payload.key"
+      },
+      {
+        "syscall": "read",
+        "args_contains": "encrypted_data"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1059.001 - Command and Scripting Interpreter",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779426076571942120,
+      "end_ns": 1779426076571945120
+    },
+    "THREAD_ID": 1042
+  },
+  {
+    "CLAIM_ID": "CLAIM_013",
+    "BEHAVIOR": "The malware establishes a connection to a malicious C2 server to exfiltrate data.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.C2Client.sendExfiltratedData",
+      "com.malicious.Decryptor.decrypt"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "connect",
+        "args_contains": "malicious-c2-server.com"
+      },
+      {
+        "syscall": "sendto",
+        "args_contains": "POST /api/exfil HTTP/1.1"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1041 - Network Device Compromise",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429170081665024,
+      "end_ns": 1779429175081665024
+    },
+    "THREAD_ID": 1044
+  },
+  {
+    "CLAIM_ID": "CLAIM_014",
+    "BEHAVIOR": "The malware installs a persistence mechanism to ensure it runs on boot.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.Persistence.installService",
+      "com.malicious.BootReceiver.onReceive"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "openat",
+        "args_contains": "/data/system/users/0/admin_receivers.xml"
+      },
+      {
+        "syscall": "write",
+        "args_contains": "com.malicious.BootReceiver"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1547 - Boot or Logon Autostart Execution",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429163081665024,
+      "end_ns": 1779429167081665024
+    },
+    "THREAD_ID": 1043
+  },
+  {
+    "CLAIM_ID": "CLAIM_015",
+    "BEHAVIOR": "The malware stages a payload to be executed on the system.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.PayloadStager.runPayload"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "execve",
+        "args_contains": "su"
+      },
+      {
+        "syscall": "mprotect",
+        "args_contains": "PROT_READ|PROT_EXEC"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1059.001 - Command and Scripting Interpreter",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429159581665024,
+      "end_ns": 1779429161081665024
+    },
+    "THREAD_ID": 1042
+  },
+  {
+    "CLAIM_ID": "CLAIM_016",
+    "BEHAVIOR": "The malware establishes a connection to a malicious C2 server to exfiltrate data.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.C2Client.sendExfiltratedData",
+      "com.malicious.SmsSender.send"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "connect",
+        "args_contains": "192.168.1.200"
+      },
+      {
+        "syscall": "sendto",
+        "args_contains": "POST /api/exfil HTTP/1.1"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1041 - Network Device Compromise",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429170081665024,
+      "end_ns": 1779429175081665024
+    },
+    "THREAD_ID": 1044
+  },
+  {
+    "CLAIM_ID": "CLAIM_017",
+    "BEHAVIOR": "The malware installs a malicious service to persist on the system.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.Persistence.installService"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "openat",
+        "args_contains": "/data/system/users/0/admin_receivers.xml"
+      },
+      {
+        "syscall": "write",
+        "args_contains": "com.malicious.BootReceiver"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1543.003 - Create or Modify System Process",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429163081665024,
+      "end_ns": 1779429167081665024
+    },
+    "THREAD_ID": 1043
+  },
+  {
+    "CLAIM_ID": "CLAIM_018",
+    "BEHAVIOR": "The malware stages a payload to execute on the system.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.PayloadStager.runPayload"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "execve",
+        "args_contains": "su"
+      },
+      {
+        "syscall": "mprotect",
+        "args_contains": "PROT_READ|PROT_EXEC"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1059.001 - Command and Scripting Interpreter",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429159581665024,
+      "end_ns": 1779429161081665024
+    },
+    "THREAD_ID": 1042
+  },
+  {
+    "CLAIM_ID": "CLAIM_019",
+    "BEHAVIOR": "The malware executes a malicious service on boot.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.BootReceiver.onReceive"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "openat",
+        "args_contains": "/etc/init.d/malware"
+      },
+      {
+        "syscall": "write",
+        "args_contains": "/data/local/tmp/backdoor"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1543.003 - Create or Modify System Process",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429164081665024,
+      "end_ns": 1779429166081665024
+    },
+    "THREAD_ID": 1043
+  },
+  {
+    "CLAIM_ID": "CLAIM_020",
+    "BEHAVIOR": "The malware attempts to load a malicious payload from a file named 'payload.key' and execute it with elevated privileges using the 'su' command.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.Dropper.z1",
+      "com.malicious.PayloadStager.runPayload"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "openat",
+        "args_contains": "payload.key"
+      },
+      {
+        "syscall": "execve",
+        "args_contains": "su"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1059.001 - Command and Scripting Interpreter",
+    "CONFIDENCE": "HIGH",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779429157081665024,
+      "end_ns": 1779429161581665024
+    },
+    "THREAD_ID": 1042
+  },
+  {
+    "CLAIM_ID": "CLAIM_021",
+    "BEHAVIOR": "The malware attempts to decrypt data using AES encryption.",
+    "EVIDENCE_CHAIN": [
+      "com.malicious.Decryptor.decrypt"
+    ],
+    "SYSCALL_EVIDENCE": [
+      {
+        "syscall": "read",
+        "args_contains": "encrypted_data"
+      }
+    ],
+    "MITRE_TECHNIQUE": "T1485 - Data Encrypted for Impact",
+    "CONFIDENCE": "MEDIUM",
+    "TEMPORAL_WINDOW": {
+      "start_ns": 1779426076571943120,
+      "end_ns": 1779426076571944120
+    },
+    "THREAD_ID": 1042
+  }
+]

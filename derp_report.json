@@ -1,0 +1,23 @@
+{
+  "recovered_count": 3,
+  "recovered_edges": [
+    {
+      "class_name": "com.malicious.Decryptor",
+      "method_name": "decrypt",
+      "label": "native_callback_return",
+      "entry_ts_ns": 1779429157581665024
+    },
+    {
+      "class_name": "com.malicious.PayloadStager",
+      "method_name": "runPayload",
+      "label": "anti_debug_check",
+      "entry_ts_ns": 1779429159581665024
+    },
+    {
+      "class_name": "com.malicious.Dropper",
+      "method_name": "z1",
+      "label": "hidden_jni_trampoline",
+      "entry_ts_ns": 1779429157081665024
+    }
+  ]
+}

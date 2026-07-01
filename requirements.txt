@@ -1,0 +1,5 @@
+huggingface_hub
+loguru
+langsmith
+sentence-transformers
+qdrant-client

@@ -1,0 +1,9 @@
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+hypertracerag_env/
+qdrant_storage/
+logs/
+pipeline.db
+.DS_Store
