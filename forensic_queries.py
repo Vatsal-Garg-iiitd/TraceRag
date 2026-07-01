@@ -101,7 +101,17 @@ def run_forensic_pipeline():
     try:
         logger.info("Connecting to Qdrant collection...")
         client = QdrantClient(path=str(QDRANT_PATH))
-        
+
+        # Guard: check if collection exists before querying
+        existing = [c.name for c in client.get_collections().collections]
+        if COLLECTION_NAME not in existing:
+            logger.warning(f"Collection '{COLLECTION_NAME}' not found in Qdrant. No chunks have been indexed yet. Skipping forensic queries.")
+            empty_output = {"expert_findings": [], "adaptive_followup": [], "all_suspect_methods": []}
+            with open(OUTPUT_PATH, 'w') as f:
+                json.dump(empty_output, f, indent=2)
+            logger.info(f"Wrote empty findings to {OUTPUT_PATH}")
+            return
+
         logger.info("Loading sentence-transformer model...")
         model = SentenceTransformer('all-MiniLM-L6-v2')
         
