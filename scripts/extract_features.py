@@ -4,14 +4,20 @@ import shutil
 import subprocess
 import pandas as pd
 
-BASE_PATH = r"D:\LLM_Malware_project"
+import sys
 
-BENIGN_PATH = os.path.join(BASE_PATH, "benign")
-MALWARE_PATH = os.path.join(BASE_PATH, "malware")
-DECODED_PATH = os.path.join(BASE_PATH, "decoded")
-FEATURES_PATH = os.path.join(BASE_PATH, "features")
+# Add project root to sys.path to allow config import
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from config import path_in_project
 
-APKTOOL_PATH = r"D:\apktool\apktool.bat"
+BASE_PATH = os.environ.get("MALWARE_PROJECT_BASE", str(path_in_project("data")))
+
+BENIGN_PATH = os.environ.get("BENIGN_PATH", os.path.join(BASE_PATH, "benign"))
+MALWARE_PATH = os.environ.get("MALWARE_PATH", os.path.join(BASE_PATH, "malware"))
+DECODED_PATH = os.environ.get("DECODED_PATH", os.path.join(BASE_PATH, "decoded"))
+FEATURES_PATH = os.environ.get("FEATURES_PATH", os.path.join(BASE_PATH, "features"))
+
+APKTOOL_PATH = os.environ.get("APKTOOL_PATH", "apktool")
 
 os.makedirs(DECODED_PATH, exist_ok=True)
 os.makedirs(FEATURES_PATH, exist_ok=True)

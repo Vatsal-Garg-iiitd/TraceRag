@@ -1,9 +1,14 @@
 import os
 import pandas as pd
 
-BASE_PATH = r"D:\LLM_Malware_project"
+import sys
 
-FEATURES_PATH = os.path.join(BASE_PATH, "features")
+# Add project root to sys.path to allow config import
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from config import path_in_project
+
+BASE_PATH = os.environ.get("MALWARE_PROJECT_BASE", str(path_in_project("data")))
+FEATURES_PATH = os.environ.get("FEATURES_PATH", os.path.join(BASE_PATH, "features"))
 
 INPUT_CSV = os.path.join(FEATURES_PATH, "filtered_dataset.csv")
 OUTPUT_CSV = os.path.join(FEATURES_PATH, "prompts.csv")
