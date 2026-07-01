@@ -45,7 +45,23 @@ def run_verification():
         logger.info("Parsing raw strace log...")
         strace_events = parse_strace()
         logger.info(f"Loaded {len(strace_events)} ground-truth syscall events from strace.log.")
-        
+
+        # No strace data (Layer 1 not used) — write a skipped report and exit gracefully
+        if not strace_events:
+            logger.warning("No strace events found. Layer 1 (dynamic sandbox) was not used.")
+            logger.warning("Skipping syscall-level claim verification. Writing STATIC_ONLY verdict.")
+            skipped_output = {
+                "faith_score": None,
+                "mode": "STATIC_ONLY",
+                "note": "Claim verification skipped — no strace.log (Layer 1 not used).",
+                "summary": {"total_claims": 0, "verified": 0, "partial": 0, "unverified": 0},
+                "verified_claims": []
+            }
+            with open(OUTPUT_PATH, "w") as f:
+                json.dump(skipped_output, f, indent=2)
+            logger.info(f"Skipped verification report saved to {OUTPUT_PATH}")
+            return
+
         if not CLAIMS_PATH.exists():
             logger.error(f"behavioral_claims.json not found at {CLAIMS_PATH}")
             return
